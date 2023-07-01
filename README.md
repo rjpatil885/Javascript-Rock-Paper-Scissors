@@ -9,6 +9,8 @@ The chosen options are then compared, following the traditional rules of the gam
 
 Rock beats Scissors,
 Paper beats Rock,
-Scissors beats Paper,
+Scissors beats Paper
+
+If both players choose the same option, it results in a tie. So be strategic in your choices and may the best player win!
 
 Have fun playing the Javascript Rock Paper Scissors game! 
