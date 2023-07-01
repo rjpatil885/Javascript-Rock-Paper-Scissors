@@ -7,8 +7,8 @@ The game is implemented using HTML, CSS, and JavaScript, providing an interactiv
 To play the game, the user selects one of the three options: Rock, Paper, or Scissors. The computer also randomly selects an option.
 The chosen options are then compared, following the traditional rules of the game:
 
-Rock beats Scissors
-Paper beats Rock
-Scissors beats Paper
+Rock beats Scissors,
+Paper beats Rock,
+Scissors beats Paper,
 
 Have fun playing the Javascript Rock Paper Scissors game! 
