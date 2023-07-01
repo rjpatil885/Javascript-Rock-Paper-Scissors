@@ -1,0 +1,22 @@
+.hand i {
+  font-size: 60px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: color 0.3s, border 0.3s;
+}
+
+.hand i:hover {
+  color: #FF0000;
+  border: 2px solid #FF0000;
+}
+
+.selection {
+  display: none;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#result {
+  font-weight: bold;
+  margin-top: 20px;
+}
