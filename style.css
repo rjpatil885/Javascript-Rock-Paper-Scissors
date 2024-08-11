@@ -1,22 +1,96 @@
-.hand i {
-  font-size: 60px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: color 0.3s, border 0.3s;
+body {
+    background: linear-gradient(135deg, #f06, #ffba00);
+    font-family: 'Arial', sans-serif;
+    color: #333;
 }
 
-.hand i:hover {
-  color: #FF0000;
-  border: 2px solid #FF0000;
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: #444;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+h2 {
+    color: #444;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.hand {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.option-icon {
+    font-size: 80px; 
+    margin: 0 15px;
+    cursor: pointer;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.option-icon:hover {
+    transform: scale(1.1);
+    color: #ff0000; 
 }
 
 .selection {
-  display: none;
-  font-weight: bold;
-  margin-top: 10px;
+    display: none;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #666;
 }
 
 #result {
-  font-weight: bold;
-  margin-top: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.player {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.player:hover {
+    background-color: #e8e8e8;
+    transform: translateY(-2px);
+}
+
+.win {
+    color: #28a745;
+}
+
+.tie {
+    color: #ffc107;
+}
+
+.lose {
+    color: #dc3545; 
+}
+
+.btn {
+    display: none;
+}
+
+#loader {
+    margin-top: 20px;
+    color: #666; 
+}
+
+#loader i {
+    color: #ff0000;
 }
