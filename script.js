@@ -1,92 +1,98 @@
-  function selectOption(option, player) {
-    const playerSelectionElement = document.getElementById(`${player}-selection`);
-    playerSelectionElement.textContent = `${player === 'player1' ? 'Player 1' : 'Player 2 (AI)'} selected: ${option}`;
-    playerSelectionElement.style.display = 'block';
+$(document).ready(function () {
+    let player1Score = 0;
+    let player2Score = 0;
 
-    const options = document.querySelectorAll(`.${player} i`);
-    options.forEach((optionElement) => {
-      optionElement.style.color = '#000000'; 
-      optionElement.style.border = 'none'; 
+    $(".option-icon").click(function () {
+        const player1Option = $(this).data("option");
+        $("#player1-selection").text(`Player 1 selected: ${player1Option}`).show();
+
+        resetOptions();
+        $(this).css({ opacity: 1, color: "#28a745" });
+
+        $("#loader").show();
+        $("#ai-message").hide();
+
+        setTimeout(function () {
+            const player2Option = getAIOption();
+            $("#loader").hide();
+            $("#player2-selection").text(`Player 2 (AI) selected: ${player2Option}`).show();
+
+            highlightAIOption(player2Option);
+
+            const result = determineResult(player1Option, player2Option);
+            displayResult(result, player1Option, player2Option);
+
+            updateScores();
+
+            setTimeout(resetGame, 3000);
+        }, 1500);
     });
 
-    const selectedOptionElement = document.querySelector(`.${player} i[data-option="${option}"]`);
-    selectedOptionElement.style.color = '#FF0000'; 
-    selectedOptionElement.style.border = '2px solid #FF0000'; 
-
-    if (player === 'player1') {
-      const player2Option = getAIOption();
-      const player2SelectionElement = document.getElementById('player2-selection');
-      player2SelectionElement.textContent = `Player 2 (AI) selected: ${player2Option}`;
-      player2SelectionElement.style.display = 'block';
-      displayResult(option, player2Option);
+    function getAIOption() {
+        const options = ['rock', 'paper', 'scissors'];
+        return options[Math.floor(Math.random() * options.length)];
     }
-  }
 
-  function getAIOption() {
-    const options = ['rock', 'paper', 'scissors'];
-    const randomIndex = Math.floor(Math.random() * options.length);
-    return options[randomIndex];
-  }
-
-  function displayResult(player1Option, player2Option) {
-    const resultElement = document.getElementById('result');
-
-    if (player1Option === player2Option) {
-      setResultText(resultElement, "It's a tie!", '#FFFF00');
-      highlightTieOption('player1', player1Option);
-      highlightTieOption('player2', player2Option);
-    } else if (
-      (player1Option === 'rock' && player2Option === 'scissors') ||
-      (player1Option === 'paper' && player2Option === 'rock') ||
-      (player1Option === 'scissors' && player2Option === 'paper')
-    ) {
-      setResultText(resultElement, 'Player 1 wins!', '#00FF00');
-      highlightWinningOption('player1', player1Option);
-      resetOptionColor('player2');
-    } else {
-      setResultText(resultElement, 'Player 2 (AI) wins!', '#00FF00');
-      highlightWinningOption('player2', player2Option);
-      resetOptionColor('player1');
+    function highlightAIOption(option) {
+        $(`.ai-option[data-option="${option}"]`).css({ color: "#dc3545" });
     }
-  }
 
-  function setResultText(element, text, color) {
-    element.textContent = text;
-    element.style.color = color;
-
-    if (text.length <= 10) {
-      element.style.fontSize = '24px';
-    } else if (text.length <= 20) {
-      element.style.fontSize = '20px';
-    } else {
-      element.style.fontSize = '16px';
+    function determineResult(player1Option, player2Option) {
+        if (player1Option === player2Option) {
+            return "tie";
+        } else if (
+            (player1Option === 'rock' && player2Option === 'scissors') ||
+            (player1Option === 'scissors' && player2Option === 'paper') ||
+            (player1Option === 'paper' && player2Option === 'rock')
+        ) {
+            return "player1";
+        } else {
+            return "player2";
+        }
     }
-  }
 
-  function highlightWinningOption(player, option) {
-    const options = document.querySelectorAll(`.${player} i`);
-    options.forEach((optionElement) => {
-      optionElement.style.color = optionElement.getAttribute('data-option') === option ? '#00FF00' : '#000000';
-    });
-  }
+    function displayResult(result, player1Option, player2Option) {
+        const resultElement = $("#result");
 
-  function highlightTieOption(player, option) {
-    const options = document.querySelectorAll(`.${player} i`);
-    options.forEach((optionElement) => {
-      if (optionElement.getAttribute('data-option') === option) {
-        optionElement.style.color = '#FFFF00';
-        optionElement.style.border = '2px solid #FFFF00'; 
-      } else {
-        optionElement.style.color = '#000000'; 
-        optionElement.style.border = 'none'; 
-      }
-    });
-  }
+        switch(result) {
+            case "tie":
+                resultElement.text("It's a tie!").css({ color: "#ffc107" });
+                highlightTie(player1Option, player2Option);
+                break;
+            case "player1":
+                resultElement.text('Player 1 wins!').css({ color: "#28a745" });
+                player1Score++;
+                highlightWin(player1Option);
+                break;
+            case "player2":
+                resultElement.text('Player 2 (AI) wins!').css({ color: "#dc3545" });
+                player2Score++;
+                highlightAIOption(player2Option);
+                break;
+        }
+    }
 
-  function resetOptionColor(player) {
-    const options = document.querySelectorAll(`.${player} i`);
-    options.forEach((optionElement) => {
-      optionElement.style.color = '#000000'; 
-      optionElement.style.border = 'none'; 
-    });
-  }
+    function updateScores() {
+        $("#player1-score").text(player1Score);
+        $("#player2-score").text(player2Score);
+    }
+
+    function highlightTie(player1Option, player2Option) {
+        $(`.option-icon[data-option="${player1Option}"]`).css({ color: "#007bff" });
+        $(`.ai-option[data-option="${player2Option}"]`).css({ color: "#007bff" });
+    }
+
+    function highlightWin(option) {
+        $(`.option-icon[data-option="${option}"]`).css({ color: "#28a745" });
+    }
+
+    function resetGame() {
+        $(".selection").hide();
+        $("#result").text("").css({ color: "" });
+        resetOptions();
+    }
+
+    function resetOptions() {
+        $(".option-icon, .ai-option").css({ opacity: 1, color: "#000" });
+    }
+});
